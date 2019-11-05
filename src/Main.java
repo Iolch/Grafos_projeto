@@ -7,7 +7,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		Graph graph = Graph.generateStandardGraph();
-		System.out.println(graph.getEdges());
+		CliqueIdentifier controller = new CliqueIdentifier(graph);
+		
+		System.out.println(controller.getUniverse().getEdges());
 	}
 
 }
