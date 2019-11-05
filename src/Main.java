@@ -8,7 +8,6 @@ public class Main {
 	public static void main(String[] args) {
 		Graph graph = Graph.generateStandardGraph();
 		System.out.println(graph.getEdges());
-
 	}
 
 }
