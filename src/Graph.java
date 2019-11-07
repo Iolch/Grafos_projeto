@@ -19,13 +19,16 @@ public class Graph{
 	
 		nodes.put(1, 0);
 		nodes.put(2, 0);
-		
+		nodes.put(3, 0);
 		ArrayList<Integer> relations = new ArrayList<Integer>();
-		
 		relations.add(1); 
 		relations.add(2); //[a, b]
 		edges.put(relations, 20);
 		
+		ArrayList<Integer> relations2 = new ArrayList<Integer>();
+		relations2.add(2); 
+		relations2.add(3); //[a, b]
+		edges.put(relations2, 10);
 		
 		Graph graph = new Graph(nodes, edges);
 		return graph;	
