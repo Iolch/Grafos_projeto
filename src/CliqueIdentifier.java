@@ -18,20 +18,22 @@ public class CliqueIdentifier {
 		int minclass = maximum_clique.size() - current_clique.size() + 1;
 		if (minclass <= 0) minclass = 1;
 		int lastindex = 0;
-		
+		int currentclass = 1;
 		colorset.put(1, new ArrayList<Integer>());
 		colorset.put(2, new ArrayList<Integer>());
 		
 		for (Map.Entry<Integer,Integer> node : current_universe.getNodes().entrySet()) {
 			
-			int currentclass = 1;
+			currentclass = 1;
 			
 			ArrayList<Integer> nodeadjac = getAdjacents(node.getKey());
+			ArrayList<Integer> nodeadjac_aux = getAdjacents(node.getKey());
 			System.out.println("adj"+getAdjacents(node.getKey()));
 			nodeadjac.retainAll(colorset.get(currentclass));
-			System.out.println("antes"+colorset.get(currentclass)+"ponto atual "+node);
+			System.out.println("antes"+colorset+"ponto atual "+node);
 			while(!nodeadjac.isEmpty())	{
 				currentclass += 1;
+				nodeadjac = nodeadjac_aux;
 				nodeadjac.retainAll(colorset.get(currentclass));
 				
 			}
@@ -51,6 +53,13 @@ public class CliqueIdentifier {
 		System.out.println("teste");
 		colorset.put(lastindex, new ArrayList<Integer>());
 		System.out.println(colorset);
+		for(currentclass = minclass;currentclass <= maxcolor;currentclass++) {
+			for(int i = 1;i<colorset.size();i++) {
+				
+			}
+			}
+				
+		
 		
 		return colorset;
 	}
