@@ -17,9 +17,9 @@ public class Graph{
 		HashMap <Integer, Integer> nodes = new HashMap<Integer, Integer>();
 		HashMap <ArrayList<Integer>, Integer> edges = new HashMap<ArrayList<Integer>, Integer>();
 	
-		nodes.put(1, 0);
-		nodes.put(2, 0);
-		nodes.put(3, 0);
+		nodes.put(1, 1);
+		nodes.put(2, 1);
+		nodes.put(3, 1);
 		ArrayList<Integer> relations = new ArrayList<Integer>();
 		relations.add(1); 
 		relations.add(2); //[a, b]

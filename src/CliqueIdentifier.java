@@ -28,20 +28,16 @@ public class CliqueIdentifier {
 			
 			ArrayList<Integer> nodeadjac = getAdjacents(node.getKey());
 			nodeadjac.retainAll(colorset.get(currentclass));
-			
-			while(!nodeadjac.isEmpty()) {
-				currentclass += 1;
-				if(currentclass > maxcolor) {
-					maxcolor = currentclass;
-					colorset.put(maxcolor, new ArrayList<Integer>());
-				}
-				colorset.get(currentclass).add(node.getKey());
-				if(currentclass < minclass) {
-					
-				}
+			while(!nodeadjac.isEmpty())	currentclass += 1;
+			if(currentclass > maxcolor) {
+				maxcolor = currentclass;
+				colorset.put(maxcolor, new ArrayList<Integer>());
 			}
+			colorset.get(currentclass).add(node.getKey());
+			//if(currentclass < minclass) {}
 		}
-		colorset.put(lastindex-1, new ArrayList<Integer>());
+		System.out.println("teste");
+		colorset.put(lastindex, new ArrayList<Integer>());
 		System.out.println(colorset);
 		return colorset;
 	}
