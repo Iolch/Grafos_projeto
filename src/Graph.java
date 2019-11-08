@@ -22,6 +22,7 @@ public class Graph{
 		nodes.put(3, 1);
 		nodes.put(4, 1);
 		nodes.put(5, 1);
+		nodes.put(6, 1);
 		ArrayList<Integer> relations = new ArrayList<Integer>();
 		relations.add(1); 
 		relations.add(2); //[a, b]
@@ -30,19 +31,19 @@ public class Graph{
 		ArrayList<Integer> relations2 = new ArrayList<Integer>();
 		relations2.add(2); 
 		relations2.add(3); //[a, b]
-		edges.put(relations2, 10);
+		edges.put(relations2, 4);
 		ArrayList<Integer> relations3 = new ArrayList<Integer>();
 		relations3.add(4); 
 		relations3.add(1); //[a, b]
-		edges.put(relations3, 10);
+		edges.put(relations3, 15);
 		ArrayList<Integer> relations4 = new ArrayList<Integer>();
 		relations4.add(5); 
 		relations4.add(1); //[a, b]
-		edges.put(relations4, 10);
+		edges.put(relations4, 25);
 		ArrayList<Integer> relations5 = new ArrayList<Integer>();
 		relations5.add(5); 
 		relations5.add(2); //[a, b]
-		edges.put(relations5, 10);
+		edges.put(relations5, 1);
 		
 		Graph graph = new Graph(nodes, edges);
 		return graph;	
