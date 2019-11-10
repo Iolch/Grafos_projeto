@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -9,7 +11,8 @@ public class Main {
 		Graph graph = Graph.generateStandardGraph();
 		CliqueIdentifier controller = new CliqueIdentifier(graph,3,5,2);
 		System.out.println(controller.getUniverse().getEdges());
-		controller.coloringGraph(graph);
+		HashMap<Integer,ArrayList<Integer>> colorSet = controller.coloringGraph(controller.getUniverse());
+		controller.maximalsIdentifier(controller.getUniverse(),colorSet,1);
 		
 	}
 
