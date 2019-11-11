@@ -13,13 +13,14 @@ public class CliqueIdentifier {
 	private ArrayList<Graph> maximalsClique = new ArrayList<Graph>();
 	private ArrayList<Integer> s = new ArrayList<Integer>(Collections.nCopies(2, 0));
 	private ArrayList<Integer> sOld = new ArrayList<Integer>(Collections.nCopies(2, 0));
+
 	private int maxQtnCliques;
 	private int minWeight;
 	private int minQtnNodes;
 	private int allSteps = 0;
+
 	private double Tlimit = 0.002;
 
-	
 	public CliqueIdentifier(Graph u, int mqc,int mw,int mqn ) {
 		this.universe = u;
 		this.maxQtnCliques = mqc;
@@ -108,7 +109,6 @@ public class CliqueIdentifier {
 			else break;
 			
 		}
-		
 	
 	}
 	public ArrayList<Integer> removeDuplicate(ArrayList<Integer> list){
