@@ -1,59 +1,47 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 public class Graph{
-	HashMap <Integer, Integer> nodes;
-	HashMap <ArrayList<Integer>, Integer> edges;
+	HashMap <Integer, Integer> nodes = new HashMap <Integer, Integer>();
+	HashMap <ArrayList<Integer>, Integer> edges = new HashMap <ArrayList<Integer>, Integer>();
 	
 	public Graph(HashMap <Integer, Integer> N, HashMap <ArrayList<Integer>, Integer> E) {
 		this.nodes = N;
 		this.edges = E;
 	}
+	public Graph() {
+		this.generateStandardGraph();
+	}
 	
 	public HashMap <Integer, Integer> getNodes() {return nodes;}
 	public HashMap <ArrayList<Integer>, Integer> getEdges() {return edges;}
 	
-	public static Graph generateStandardGraph() 
+	public void addNode(int idx) {
+		if(!this.nodes.containsKey(idx)) this.nodes.put(idx, 1);
+	}
+	public void addEdge(int idx1, int idx2, int w) {
+		if(this.getNodes().containsKey(idx1) && this.getNodes().containsKey(idx2)) {
+			ArrayList<Integer> relations = new ArrayList<Integer>();
+			relations.add(idx1); 
+			relations.add(idx2); //[a, b]
+			edges.put(relations, w);
+		}	
+	}
+	public void generateStandardGraph() 
 	{
-		HashMap <Integer, Integer> nodes = new HashMap<Integer, Integer>();
-		HashMap <ArrayList<Integer>, Integer> edges = new HashMap<ArrayList<Integer>, Integer>();
-	
-		nodes.put(1, 1);
-		nodes.put(2, 1);
-		nodes.put(3, 1);
-		nodes.put(4, 1);
-		nodes.put(5, 1);
-		nodes.put(6, 1);
-		ArrayList<Integer> relations = new ArrayList<Integer>();
-		relations.add(1); 
-		relations.add(2); //[a, b]
-		edges.put(relations, 20);
+		this.addNode(1);
+		this.addNode(2);
+		this.addNode(3);
+		this.addNode(4);
+		this.addNode(5);
+		this.addNode(6);
 		
-		ArrayList<Integer> relations2 = new ArrayList<Integer>();
-		relations2.add(2); 
-		relations2.add(3); //[a, b]
-		edges.put(relations2, 4);
-		ArrayList<Integer> relations3 = new ArrayList<Integer>();
-		relations3.add(4); 
-		relations3.add(1); //[a, b]
-		edges.put(relations3, 15);
-		ArrayList<Integer> relations4 = new ArrayList<Integer>();
-		relations4.add(5); 
-		relations4.add(1); //[a, b]
-		edges.put(relations4, 25);
-		ArrayList<Integer> relations5 = new ArrayList<Integer>();
-		relations5.add(5); 
-		relations5.add(2); //[a, b]
-		edges.put(relations5, 10);
-		ArrayList<Integer> relations6 = new ArrayList<Integer>();
-		relations6.add(5); 
-		relations6.add(4); //[a, b]
-		edges.put(relations6, 10);
-		ArrayList<Integer> relations7 = new ArrayList<Integer>();
-		relations7.add(4); 
-		relations7.add(2); //[a, b]
-		edges.put(relations7, 10);
-		Graph graph = new Graph(nodes, edges);
-		return graph;	
+		this.addEdge(1, 2, 20);
+		this.addEdge(2, 3, 34);
+		this.addEdge(4, 1, 12);
+		this.addEdge(5, 1, 18);
+		this.addEdge(5, 2, 5);
+		this.addEdge(4, 2, 10);
+		this.addEdge(4, 5, 6);
 	}
 
 
