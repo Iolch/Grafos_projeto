@@ -11,13 +11,13 @@ public class CliqueIdentifier {
 	private ArrayList<Integer> currentClique = new ArrayList<Integer>();
 	private ArrayList<Integer> maximumClique = new ArrayList<Integer>();
 	private ArrayList<Graph> maximalsClique = new ArrayList<Graph>();
-	private ArrayList<Integer> s = new ArrayList<Integer>(Collections.nCopies(2, 0));
-	private ArrayList<Integer> sOld = new ArrayList<Integer>(Collections.nCopies(2, 0));
+	private HashMap<Integer,Integer> s = new HashMap<Integer,Integer>();
+	private HashMap<Integer,Integer> sOld = new HashMap<Integer,Integer>();
 
 	private int maxQtnCliques;
 	private int minWeight;
 	private int minQtnNodes;
-	private int allSteps = 0;
+	private int allSteps = 1;
 
 	private double Tlimit = 0.002;
 
@@ -30,7 +30,10 @@ public class CliqueIdentifier {
 		// VAMOS RETIRAR TODAS AS ARESTAS COM PESO MENOR QUE minWeight E RETIRAR OS VÉRTICES DESCONEXOS
 		removeBottomEdges();
 		removeDisconnectedNodes();
-		System.out.println(s);
+		this.s.put(0,0);
+		this.s.put(1,0);
+		this.sOld.put(0,0);
+		this.sOld.put(1,0);
 	}
 	public HashMap<Integer,ArrayList<Integer>> coloringGraph(Graph currentUniverse){
 		HashMap<Integer,ArrayList<Integer>> colorset = new HashMap<Integer,ArrayList<Integer>>();
@@ -77,8 +80,17 @@ public class CliqueIdentifier {
 		return colorset;
 	}
 	public void maximalsIdentifier(Graph currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
-		s.set(level, s.get(level)+s.get(level-1) - sOld.get(level));
-		sOld.set(level,s.get(level-1));
+		if(!this.s.containsKey(level))	this.s.put(level, 0);
+		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
+		
+		//this.s.set(level, this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
+		//System.out.println(this.s.entrySet());
+		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
+		//this.s.set(level, this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
+		//sOld.put(level,this.s.get(level-1));
+
+		//sOld.set(level,this.s.get(level-1));
+		
 		while(!currentUniverse.getNodes().isEmpty())
 		{
 			ArrayList<Integer> maximumClass = colorSet.get(colorSet.size());
@@ -86,31 +98,52 @@ public class CliqueIdentifier {
 			int choosenNode  = maximumClass.get(maximumClass.size()-1);
 			currentUniverse.getNodes().remove(choosenNode);
 	
-			if(currentClique.size()+ maximumColor > maximumClique.size())
+			if(currentClique.size()+ maximumColor > maximumClique.size() )
 			{
 				currentClique.add(choosenNode);
 				ArrayList<Integer> nodeAdjac = getAdjacents(choosenNode);
 				nodeAdjac.retainAll(currentUniverse.getNodes().keySet());
 				System.out.println(currentUniverse.getNodes().keySet());
 				if(!nodeAdjac.isEmpty()) {
-					if(s.get(level)/allSteps < Tlimit)
+					if(this.s.get(level)/this.allSteps < this.Tlimit)
 					{
 						
 					}
 					colorSet = coloringGraph(currentUniverse);
+					this.s.put(level,this.s.get(level)+1);
+						//this.s.set(level,this.s.get(level)+1);
+						
+					
 					maximalsIdentifier(currentUniverse,colorSet,level+1);
-					s.set(level,s.get(level)+1);
+					
 				}
-				else if(currentClique.size()> maximumClique.size()) maximumClique = currentClique;
+				else if(currentClique.size()> maximumClique.size())
+				{
+					//System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBH");
+					//System.out.println(maximumClique);
+					//System.out.println(currentClique);
+					maximumClique = currentClique;
+				}
 				
-				currentClique.remove(choosenNode);
+				currentClique.removeIf(node -> node == choosenNode);
+				
 				
 			}
-			else break;
+			else
+			{
+				break;
+			}
 			
 		}
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH"+level);
+		System.out.println(maximumClique);
 	
 	}
+	/*public Graph buildSubgraph(ArrayList<Integer> nodes)
+	{
+		
+	
+	}*/
 	public ArrayList<Integer> removeDuplicate(ArrayList<Integer> list){
 		Set<Integer> set = new LinkedHashSet<Integer>();
 		set.addAll(list);
@@ -144,6 +177,7 @@ public class CliqueIdentifier {
 				adjacents.add(relation.get(idx));
 			}
 		}
+		//System.out.println("adjacents : "+" node "+ node+" "+adjacents);
 		return adjacents;
 	}
 	public ArrayList<Integer> getcurrentClique() {
