@@ -11,8 +11,8 @@ public class Main {
 		Graph graph = Graph.generateStandardGraph();
 		CliqueIdentifier controller = new CliqueIdentifier(graph,3,5,3);
 		System.out.println(controller.getUniverse().getEdges());
-		HashMap<Integer,ArrayList<Integer>> colorSet = controller.coloringGraph(controller.getUniverse());
-		controller.maximalsIdentifier(controller.getUniverse(),colorSet,1);
+		HashMap<Integer,ArrayList<Integer>> colorSet = controller.coloringGraph(controller.getUniverse().getNodes().keySet());
+		controller.maximalsIdentifier(controller.getUniverse().getNodes().keySet(),colorSet,1);
 		
 	}
 

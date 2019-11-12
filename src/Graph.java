@@ -43,11 +43,15 @@ public class Graph{
 		ArrayList<Integer> relations5 = new ArrayList<Integer>();
 		relations5.add(5); 
 		relations5.add(2); //[a, b]
-		edges.put(relations5, 1);
+		edges.put(relations5, 10);
 		ArrayList<Integer> relations6 = new ArrayList<Integer>();
-		relations4.add(2); 
-		relations4.add(1); //[a, b]
-		edges.put(relations4, 25);
+		relations6.add(5); 
+		relations6.add(4); //[a, b]
+		edges.put(relations6, 10);
+		ArrayList<Integer> relations7 = new ArrayList<Integer>();
+		relations7.add(4); 
+		relations7.add(2); //[a, b]
+		edges.put(relations7, 10);
 		Graph graph = new Graph(nodes, edges);
 		return graph;	
 	}
