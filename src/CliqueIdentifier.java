@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class CliqueIdentifier {
 	private Graph universe;
 	private ArrayList<Integer> currentClique = new ArrayList<Integer>();
 	private ArrayList<Integer> maximumClique = new ArrayList<Integer>();
-	private ArrayList<Graph> maximalsClique = new ArrayList<Graph>();
+	private Set<ArrayList<Integer>> maximalsClique = new HashSet<ArrayList<Integer>>();
 	private HashMap<Integer,Integer> s = new HashMap<Integer,Integer>();
 	private HashMap<Integer,Integer> sOld = new HashMap<Integer,Integer>();
 
@@ -79,7 +80,7 @@ public class CliqueIdentifier {
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
-		
+		System.out.println("level "+level);
 
 		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
 		
@@ -90,7 +91,7 @@ public class CliqueIdentifier {
 			int choosenNode  = maximumClass.get(maximumClass.size()-1);
 			currentUniverse.remove(choosenNode);
 	
-			if(currentClique.size()+ maximumColor > maximumClique.size() )
+			if(currentClique.size()+ maximumColor >= maximumClique.size() )
 			{
 				currentClique.add(choosenNode);
 				Set<Integer> nodeAdjac = getAdjacents(choosenNode);
@@ -101,16 +102,18 @@ public class CliqueIdentifier {
 				if(!intersection.isEmpty()) {
 					if(this.s.get(level)/this.allSteps < this.Tlimit)
 					{
-						
+						//intersection = sortNodes(intersection);
 					}
 					colorSet = coloringGraph(intersection);
 					this.s.put(level,this.s.get(level)+1);
-						
+					if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
+					//System.out.println("maximalsClique "+maximalsClique);
 					maximalsIdentifier(intersection,colorSet,level+1);
 					
 				}
 				else if(currentClique.size()> maximumClique.size())
 				{
+					
 					maximumClique = currentClique;
 					System.out.println("maximum" + maximumClique);
 				}
@@ -125,6 +128,7 @@ public class CliqueIdentifier {
 			}
 			
 		}
+		System.out.println("maximalsClique1 "+maximalsClique);
 	
 	}
 	
@@ -138,7 +142,28 @@ public class CliqueIdentifier {
 		return list;	
 	}
 	
+	public Set<Integer> sortNodes(Set<Integer> current)
+	{
+		
+		ArrayList<NodeMask> sortedList = new ArrayList<NodeMask> ();
+		Set<Integer> adjac = new HashSet<Integer>();
+		for(Integer node: current)
+		{
+			adjac = getAdjacents(node);
+			adjac.retainAll(current);
+			NodeMask nodeMask = new NodeMask();
+			nodeMask.setNode(node);
+			nodeMask.setDegree(adjac.size());
+			sortedList.add(nodeMask);
+			
+			
+		}
 
+		quickSort(sortedList,0,sortedList.size()-1);
+		
+		Set<Integer> newCurrent = new HashSet<Integer>();
+		return newCurrent;
+	}
 	public void removeDisconnectedNodes() {
 		ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
 		for(ArrayList<Integer> relation : this.universe.getEdges().keySet()) 
@@ -171,7 +196,32 @@ public class CliqueIdentifier {
 		//System.out.println("adjacents : "+" node "+ node+" "+adjacents);
 		return adjacents;
 	}
-	
+	public void quickSort(ArrayList<NodeMask> vet, int esq, int dir){
+	    int pivo = esq; 
+	    int  i;
+	    NodeMask ch;
+	    int j;   
+	    for(i=esq+1;i<=dir;i++){        
+	        j = i;                      
+	        if(vet.get(j).getDegree() < vet.get(pivo).getDegree()){     
+	            ch = vet.get(j);               
+	            while(j > pivo){           
+	                vet.get(j).setDegree(vet.get( j-1).getDegree());    
+	                vet.get(j).setNode(vet.get( j-1).getNode()); 
+	                j--;                    
+	            }
+	            vet.get(j).setDegree(ch.getDegree());    
+                vet.get(j).setNode(ch.getNode()); 
+	            pivo++;                    
+	        }
+	    }
+	    if(pivo-1 >= esq){              
+	    	quickSort(vet,esq,pivo-1);      
+	    }
+	    if(pivo+1 <= dir){              
+	    	quickSort(vet,pivo+1,dir);      
+	    }
+	 }
 	
 	public ArrayList<Integer> getcurrentClique() {
 		return currentClique;
@@ -187,3 +237,26 @@ public class CliqueIdentifier {
 		return universe;
 	}
 }
+class NodeMask {
+	private int node = 0;
+	private int degree = 0;
+	public int degree() {
+		return node;
+	}
+	public int getNode() {
+		return node;
+	}
+	public void setNode(int node) {
+		this.node = node;
+	}
+	public int getDegree() {
+		return degree;
+	}
+	public void setDegree(int degree) {
+		this.degree = degree;
+	}
+	
+
+	
+}
+
