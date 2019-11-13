@@ -42,6 +42,14 @@ public class Graph{
 		this.addEdge(5, 2, 5);
 		this.addEdge(4, 2, 10);
 		this.addEdge(4, 5, 6);
+		
+		this.addNode(7);
+		this.addNode(8);
+		this.addNode(9);
+		
+		this.addEdge(7, 8, 20);
+		this.addEdge(8, 9, 34);
+		this.addEdge(7, 9, 12);
 	}
 
 

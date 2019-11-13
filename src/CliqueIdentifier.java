@@ -78,19 +78,24 @@ public class CliqueIdentifier {
 	
 
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
+		
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
-		System.out.println("level "+level);
-
+		
 		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
 		
 		while(!currentUniverse.isEmpty())
 		{
+//			System.out.println("universe"+currentUniverse);
+			System.out.println("colorset"+colorSet);
+//			System.out.println("currentclique"+currentClique);
+			
 			ArrayList<Integer> maximumClass = colorSet.get(colorSet.size());
 			int maximumColor = (int) colorSet.keySet().toArray()[colorSet.size()-1];
 			int choosenNode  = maximumClass.get(maximumClass.size()-1);
+			
+			System.out.println("choosenNode" + choosenNode);
 			currentUniverse.remove(choosenNode);
-	
 			if(currentClique.size()+ maximumColor >= maximumClique.size() )
 			{
 				currentClique.add(choosenNode);
@@ -107,20 +112,15 @@ public class CliqueIdentifier {
 					colorSet = coloringGraph(intersection);
 					this.s.put(level,this.s.get(level)+1);
 					if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
-					//System.out.println("maximalsClique "+maximalsClique);
 					maximalsIdentifier(intersection,colorSet,level+1);
 					
 				}
 				else if(currentClique.size()> maximumClique.size())
-				{
-					
-					maximumClique = currentClique;
-					System.out.println("maximum" + maximumClique);
+				{	
+					System.out.println("entra");
+					maximumClique.addAll(currentClique);	
 				}
-				
 				currentClique.removeIf(node -> node == choosenNode);
-				
-				
 			}
 			else
 			{
@@ -128,8 +128,6 @@ public class CliqueIdentifier {
 			}
 			
 		}
-		System.out.println("maximalsClique1 "+maximalsClique);
-	
 	}
 	
 	
@@ -230,6 +228,9 @@ public class CliqueIdentifier {
 	
 	public ArrayList<Integer> getmaximumClique() {
 		return maximumClique;
+	}
+	public Set<ArrayList<Integer>> getMaximalsClique(){
+		return maximalsClique;
 	}
 	
 	
