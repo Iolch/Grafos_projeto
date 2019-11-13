@@ -116,7 +116,9 @@ public class CliqueIdentifier {
 				else if(currentClique.size()> maximumClique.size())
 				{	
 					maximumClique.clear();
-					maximumClique.addAll(currentClique);	
+					maximumClique.addAll(currentClique);
+					if(!maximumClique.isEmpty() && maximumClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(maximumClique));
+					
 				}
 				currentClique.removeIf(node -> node == choosenNode);
 			}
