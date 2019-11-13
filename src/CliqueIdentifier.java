@@ -85,16 +85,14 @@ public class CliqueIdentifier {
 		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
 		
 		while(!currentUniverse.isEmpty())
-		{
-//			System.out.println("universe"+currentUniverse);
-			System.out.println("colorset"+colorSet);
-//			System.out.println("currentclique"+currentClique);
-			
+		{			
 			ArrayList<Integer> maximumClass = colorSet.get(colorSet.size());
+			maximumClass.retainAll(currentUniverse);
+			
+			if(maximumClass.isEmpty()) break;
+			
 			int maximumColor = (int) colorSet.keySet().toArray()[colorSet.size()-1];
 			int choosenNode  = maximumClass.get(maximumClass.size()-1);
-			
-			System.out.println("choosenNode" + choosenNode);
 			currentUniverse.remove(choosenNode);
 			if(currentClique.size()+ maximumColor >= maximumClique.size() )
 			{
@@ -102,22 +100,22 @@ public class CliqueIdentifier {
 				Set<Integer> nodeAdjac = getAdjacents(choosenNode);
 				Set<Integer> intersection = new HashSet<Integer>(currentUniverse);
 				intersection.retainAll(nodeAdjac);
-				//System.out.println(choosenNode+" cc "+ currentUniverse + " adj  "+ nodeAdjac + " itr "+ intersection);
+//				System.out.println(choosenNode+" cc "+ currentUniverse + " adj  "+ nodeAdjac + " itr "+ intersection);
 				
 				if(!intersection.isEmpty()) {
 					if(this.s.get(level)/this.allSteps < this.Tlimit)
 					{
 						//intersection = sortNodes(intersection);
 					}
-					colorSet = coloringGraph(intersection);
+					HashMap<Integer,ArrayList<Integer>> colorSubSet = coloringGraph(intersection);
 					this.s.put(level,this.s.get(level)+1);
 					if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
-					maximalsIdentifier(intersection,colorSet,level+1);
+					maximalsIdentifier(intersection,colorSubSet,level+1);
 					
 				}
 				else if(currentClique.size()> maximumClique.size())
 				{	
-					System.out.println("entra");
+					maximumClique.clear();
 					maximumClique.addAll(currentClique);	
 				}
 				currentClique.removeIf(node -> node == choosenNode);
@@ -226,7 +224,7 @@ public class CliqueIdentifier {
 	}
 	
 	
-	public ArrayList<Integer> getmaximumClique() {
+	public ArrayList<Integer> getMaximumClique() {
 		return maximumClique;
 	}
 	public Set<ArrayList<Integer>> getMaximalsClique(){

@@ -14,7 +14,8 @@ public class Main {
 		System.out.println(controller.getUniverse().getEdges());
 		HashMap<Integer,ArrayList<Integer>> colorSet = controller.coloringGraph(controller.getUniverse().getNodes().keySet());
 		controller.maximalsIdentifier(controller.getUniverse().getNodes().keySet(),colorSet,1);
-		
+		System.out.println(controller.getMaximalsClique());
+		System.out.println(controller.getMaximumClique());
 		
 	}
 	
