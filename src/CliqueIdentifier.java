@@ -221,6 +221,40 @@ public class CliqueIdentifier {
 	    }
 	 }
 	
+	public void filterMaximals()
+	{
+		for(ArrayList<Integer> maximal: maximalsClique)
+		{
+			
+			ArrayList<Integer> maximalAux = new ArrayList<Integer>(maximal);
+			for(ArrayList<Integer> currentClique: maximalsClique)
+			{
+				
+				if(currentClique.equals(maximal)) continue;
+				
+				ArrayList<Integer> currentCliqueAux = new ArrayList<Integer>(currentClique);
+				currentCliqueAux.retainAll(maximalAux);
+				
+				if(!currentCliqueAux.isEmpty())
+				{
+					
+					if(currentClique.size() < maximal.size()) currentClique.removeIf(node -> currentCliqueAux.contains(node));
+					
+					else maximal.removeIf(node -> currentCliqueAux.contains(node));
+				}
+				
+			}
+		}
+		Set<ArrayList<Integer>> filterMax = new HashSet<ArrayList<Integer>>();
+		for(ArrayList<Integer> maximal: maximalsClique)
+		{
+			if(!maximal.isEmpty()) filterMax.add(maximal);
+		}
+		maximalsClique.clear();
+		maximalsClique.addAll(filterMax);
+		
+		
+	}
 	public ArrayList<Integer> getcurrentClique() {
 		return currentClique;
 	}

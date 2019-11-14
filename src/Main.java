@@ -16,6 +16,8 @@ public class Main {
 		controller.maximalsIdentifier(controller.getUniverse().getNodes().keySet(),colorSet,1);
 		System.out.println(controller.getMaximalsClique());
 		System.out.println(controller.getMaximumClique());
+        controller.filterMaximals();
+        System.out.println(controller.getMaximalsClique());
 		
 	}
 	
