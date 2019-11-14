@@ -79,8 +79,8 @@ public class CliqueIdentifier {
 	
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
 		System.out.println("------------ level "+level+" -----------");
-		System.out.println("currentClique inicio da exeucu��o: "+currentClique);
-		System.out.println("currentUniverse inicio da execu��o: "+currentUniverse);
+		System.out.println("currentClique inicio da exeucução: "+currentClique);
+		System.out.println("currentUniverse inicio da execução: "+currentUniverse);
 		System.out.println("colorSet inicio da  execução"+ colorSet);
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
@@ -97,7 +97,7 @@ public class CliqueIdentifier {
 				
 				ArrayList<Integer> maximumClass = colorClass;
 				maximumClass.retainAll(currentUniverse);
-				if(maximumClass.isEmpty()) break;
+				if(maximumClass.isEmpty()) {System.out.println("level "+ level + " - Não tem mais cores! break");break;}
 				
 				int maximumColor = (int) colorClass.get(colorClass.size()-1);
 				int choosenNode  = maximumClass.get(maximumClass.size()-1);
@@ -135,11 +135,13 @@ public class CliqueIdentifier {
 				}
 				else
 				{
+					System.out.println("level "+ level + " - O tamanho do clique + cor maxima não é maior que o tamanho do maximumClique! break");
 					break;
 				}
-				System.out.println("currentUniverse fim da execu��o: "+currentUniverse);
-				System.out.println("currentClique fim da execu��o: "+currentClique);
+				System.out.println("currentUniverse fim da execução: "+currentUniverse);
+				System.out.println("currentClique fim da execução: "+currentClique);
 		   }
+			System.out.println("level "+ level + " - O current Universe está vazio! break");
 		}
 		
 	}
@@ -235,6 +237,7 @@ public class CliqueIdentifier {
 	
 	public void filterMaximals()
 	{
+		System.out.println("Filtrar os maximals: "+ maximalsClique);
 		for(ArrayList<Integer> maximal: maximalsClique)
 		{
 			
