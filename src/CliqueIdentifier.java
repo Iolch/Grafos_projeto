@@ -260,10 +260,7 @@ public class CliqueIdentifier {
 			if(!maximal.isEmpty() && maximal.size() >= minQtnNodes ) filterMax.add(maximal);
 		}
 		maximalsClique.clear();
-		maximalsClique.addAll(filterMax);
-		
-		
-		
+		maximalsClique.addAll(filterMax);		
 	}
 	public ArrayList<Integer> getcurrentClique() {
 		return currentClique;
