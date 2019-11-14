@@ -32,6 +32,7 @@ public class CliqueIdentifier {
 		// VAMOS RETIRAR TODAS AS ARESTAS COM PESO MENOR QUE minWeight E RETIRAR OS Vï¿½RTICES DESCONEXOS
 		removeBottomEdges();
 		removeDisconnectedNodes();
+		System.out.println("Remove BottomEdges e DisconnectedNodes: "+ universe.getNodes());
 		this.s.put(0,0);
 		this.s.put(1,0);
 		this.sOld.put(0,0);
@@ -76,20 +77,22 @@ public class CliqueIdentifier {
 		return colorset;
 	}
 	
-
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
 		System.out.println("------------ level "+level+" -----------");
-		System.out.println("currentClique inicio da exeucução: "+currentClique);
-		System.out.println("currentUniverse inicio da execução: "+currentUniverse);
+		System.out.println("currentClique inicio da exeucuï¿½ï¿½o: "+currentClique);
+		System.out.println("currentUniverse inicio da execuï¿½ï¿½o: "+currentUniverse);
+		System.out.println("colorSet inicio da  execuÃ§Ã£o"+ colorSet);
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
 		
 		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
-		for(ArrayList<Integer> colorClass: colorSet.values())
+	
+		for(int i = colorSet.size(); i >= 1 ; i--)
 		{			
+			ArrayList<Integer> colorClass = colorSet.get(i);
 			while(!currentUniverse.isEmpty())
 			{			
-				System.out.println("colorClass: "+colorClass);
+				System.out.println("colorClass "+colorSet.size()+": "+colorClass);
 				
 				
 				ArrayList<Integer> maximumClass = colorClass;
@@ -134,8 +137,8 @@ public class CliqueIdentifier {
 				{
 					break;
 				}
-				System.out.println("currentUniverse fim da execução: "+currentUniverse);
-				System.out.println("currentClique fim da execução: "+currentClique);
+				System.out.println("currentUniverse fim da execuï¿½ï¿½o: "+currentUniverse);
+				System.out.println("currentClique fim da execuï¿½ï¿½o: "+currentClique);
 		   }
 		}
 		
