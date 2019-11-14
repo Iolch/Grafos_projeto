@@ -25,7 +25,7 @@ public class CliqueIdentifier {
 
 	public CliqueIdentifier(Graph u, int mqc,int mw,int mqn ) {
 		this.universe = u;
-		this.maxQtnCliques = mqc;
+		this.setMaxQtnCliques(mqc);
 		this.minWeight = mw;
 		this.minQtnNodes = mqn;
 		
@@ -78,56 +78,67 @@ public class CliqueIdentifier {
 	
 
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
-		
+		System.out.println("------------ level "+level+" -----------");
+		System.out.println("currentClique inicio da exeucução: "+currentClique);
+		System.out.println("currentUniverse inicio da execução: "+currentUniverse);
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
 		
 		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
-		
-		while(!currentUniverse.isEmpty())
+		for(ArrayList<Integer> colorClass: colorSet.values())
 		{			
-			ArrayList<Integer> maximumClass = colorSet.get(colorSet.size());
-			maximumClass.retainAll(currentUniverse);
-			
-			if(maximumClass.isEmpty()) break;
-			
-			int maximumColor = (int) colorSet.keySet().toArray()[colorSet.size()-1];
-			int choosenNode  = maximumClass.get(maximumClass.size()-1);
-			currentUniverse.remove(choosenNode);
-			if(currentClique.size()+ maximumColor >= maximumClique.size() )
-			{
-				currentClique.add(choosenNode);
-				Set<Integer> nodeAdjac = getAdjacents(choosenNode);
-				Set<Integer> intersection = new HashSet<Integer>(currentUniverse);
-				intersection.retainAll(nodeAdjac);
-//				System.out.println(choosenNode+" cc "+ currentUniverse + " adj  "+ nodeAdjac + " itr "+ intersection);
+			while(!currentUniverse.isEmpty())
+			{			
+				System.out.println("colorClass: "+colorClass);
 				
-				if(!intersection.isEmpty()) {
-					if(this.s.get(level)/this.allSteps < this.Tlimit)
-					{
-						//intersection = sortNodes(intersection);
+				
+				ArrayList<Integer> maximumClass = colorClass;
+				maximumClass.retainAll(currentUniverse);
+				if(maximumClass.isEmpty()) break;
+				
+				int maximumColor = (int) colorClass.get(colorClass.size()-1);
+				int choosenNode  = maximumClass.get(maximumClass.size()-1);
+				colorSet.remove(maximumClass);
+				currentUniverse.remove(choosenNode);
+				if(currentClique.size()+ maximumColor >= maximumClique.size() )
+				{
+					currentClique.add(choosenNode);
+					Set<Integer> nodeAdjac = getAdjacents(choosenNode);
+					Set<Integer> intersection = new HashSet<Integer>(currentUniverse);
+					intersection.retainAll(nodeAdjac);
+					System.out.println("choosen node: "+choosenNode+" choosen node adjacents "+nodeAdjac);
+					System.out.println();
+					System.out.println("intersection: "+intersection);
+					
+					if(!intersection.isEmpty()) {
+						if(this.s.get(level)/this.allSteps < this.Tlimit)
+						{
+							//intersection = sortNodes(intersection);
+						}
+						HashMap<Integer,ArrayList<Integer>> colorSubSet = coloringGraph(intersection);
+						this.s.put(level,this.s.get(level)+1);
+						if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
+						System.out.println("chama recursiva... colorSubSet: "+colorSubSet);
+						maximalsIdentifier(intersection,colorSubSet,level+1);
+	
 					}
-					HashMap<Integer,ArrayList<Integer>> colorSubSet = coloringGraph(intersection);
-					this.s.put(level,this.s.get(level)+1);
-					if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
-					maximalsIdentifier(intersection,colorSubSet,level+1);
-					
+					else if(currentClique.size()> maximumClique.size())
+					{	
+						maximumClique.clear();
+						maximumClique.addAll(currentClique);
+						if(!maximumClique.isEmpty() && maximumClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(maximumClique));
+					}
+					currentClique.removeIf(node -> node == choosenNode);
 				}
-				else if(currentClique.size()> maximumClique.size())
-				{	
-					maximumClique.clear();
-					maximumClique.addAll(currentClique);
-					if(!maximumClique.isEmpty() && maximumClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(maximumClique));
-					
+				else
+				{
+					break;
 				}
-				currentClique.removeIf(node -> node == choosenNode);
-			}
-			else
-			{
-				break;
-			}
-			
+				System.out.println("currentUniverse fim da execução: "+currentUniverse);
+				System.out.println("currentClique fim da execução: "+currentClique);
+		   }
 		}
+		
 	}
 	
 	
@@ -171,14 +182,12 @@ public class CliqueIdentifier {
 		}
 		connectedNodes = removeDuplicate(connectedNodes);
 		this.universe.getNodes().keySet().retainAll(connectedNodes);
-		//System.out.println(this.universe.getNodes());
 	}
 	
 	
 	public void removeBottomEdges()
 	{
 		this.universe.getEdges().entrySet().removeIf(edge -> edge.getValue() <  this.minWeight);
-		//System.out.println(this.universe.getEdges());
 	}
 	
 
@@ -248,10 +257,11 @@ public class CliqueIdentifier {
 		Set<ArrayList<Integer>> filterMax = new HashSet<ArrayList<Integer>>();
 		for(ArrayList<Integer> maximal: maximalsClique)
 		{
-			if(!maximal.isEmpty()) filterMax.add(maximal);
+			if(!maximal.isEmpty() && maximal.size() >= minQtnNodes ) filterMax.add(maximal);
 		}
 		maximalsClique.clear();
 		maximalsClique.addAll(filterMax);
+		
 		
 		
 	}
@@ -270,6 +280,23 @@ public class CliqueIdentifier {
 	
 	public Graph getUniverse() {
 		return universe;
+	}
+
+
+	public int getMaxQtnCliques() {
+		return maxQtnCliques;
+	}
+	public int getMinWeight()
+	{
+		return minWeight;
+	}
+	public int getMinQtnNodes()
+	{
+		return minQtnNodes;
+	}
+	
+	public void setMaxQtnCliques(int maxQtnCliques) {
+		this.maxQtnCliques = maxQtnCliques;
 	}
 }
 class NodeMask {

@@ -34,22 +34,30 @@ public class Graph{
 		this.addNode(4);
 		this.addNode(5);
 		this.addNode(6);
-		
-		this.addEdge(1, 2, 20);
-		this.addEdge(2, 3, 34);
-		this.addEdge(4, 1, 12);
-		this.addEdge(5, 1, 18);
-		this.addEdge(5, 2, 5);
-		this.addEdge(4, 2, 10);
-		this.addEdge(4, 5, 6);
-		
 		this.addNode(7);
 		this.addNode(8);
 		this.addNode(9);
+		this.addNode(10);
 		
-		this.addEdge(7, 8, 20);
-		this.addEdge(8, 9, 34);
-		this.addEdge(7, 9, 12);
+		this.addEdge(1, 3, 4);
+		this.addEdge(2, 4, 24);
+		this.addEdge(2, 5, 25);
+		this.addEdge(3, 4, 29);
+		this.addEdge(3, 6, 8);
+		this.addEdge(3, 7, 26);
+		this.addEdge(3, 9, 36);
+		this.addEdge(4, 6, 13);
+		this.addEdge(4, 7, 339);
+		this.addEdge(4, 8, 17);
+		this.addEdge(4, 9, 1);
+		this.addEdge(5, 7, 13);
+		this.addEdge(5, 8, 15);
+		this.addEdge(6, 7, 22);
+		this.addEdge(6, 9, 12);
+		this.addEdge(7, 8, 9);
+		this.addEdge(7, 9, 55);
+		this.addEdge(7, 10, 21);
+		
 	}
 
 
