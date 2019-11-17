@@ -12,7 +12,7 @@ public class CliqueIdentifier {
 	private Graph universe;
 	private ArrayList<Integer> currentClique = new ArrayList<Integer>();
 	private ArrayList<Integer> maximumClique = new ArrayList<Integer>();
-	private Set<ArrayList<Integer>> maximalsClique = new HashSet<ArrayList<Integer>>();
+	private ArrayList<ArrayList<Integer>> maximalsClique = new ArrayList<ArrayList<Integer>>();
 	private HashMap<Integer,Integer> s = new HashMap<Integer,Integer>();
 	private HashMap<Integer,Integer> sOld = new HashMap<Integer,Integer>();
 
@@ -156,6 +156,27 @@ public class CliqueIdentifier {
 		return list;	
 	}
 	
+	public ArrayList<ArrayList<Integer>> sortNodes(ArrayList<ArrayList<Integer>> maximals){
+		
+		ArrayList<CliqueMask> list = new ArrayList<CliqueMask> ();
+		for(ArrayList<Integer> nodes: maximals)
+		{
+			CliqueMask nodeMask = new CliqueMask();
+			nodeMask.setNodes(nodes);
+			nodeMask.setOrder(nodes.size());
+			list.add(nodeMask);		
+		}
+
+		quickSort(list,0,list.size()-1);
+		Collections.reverse(list);
+		
+		ArrayList<ArrayList<Integer>> sortedList = new ArrayList<ArrayList<Integer>>();
+		for(CliqueMask clique : list) {
+			sortedList.add(clique.getNodes());
+		}
+		return sortedList;
+	}
+	/*
 	public Set<Integer> sortNodes(Set<Integer> current)
 	{
 		
@@ -177,7 +198,7 @@ public class CliqueIdentifier {
 		
 		Set<Integer> newCurrent = new HashSet<Integer>();
 		return newCurrent;
-	}
+	} */
 	public void removeDisconnectedNodes() {
 		ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
 		for(ArrayList<Integer> relation : this.universe.getEdges().keySet()) 
@@ -208,22 +229,22 @@ public class CliqueIdentifier {
 		//System.out.println("adjacents : "+" node "+ node+" "+adjacents);
 		return adjacents;
 	}
-	public void quickSort(ArrayList<NodeMask> vet, int esq, int dir){
-	    int pivo = esq; 
+	public void quickSort(ArrayList<CliqueMask> vet, int esq, int dir){
+		int pivo = esq; 
 	    int  i;
-	    NodeMask ch;
+	    CliqueMask ch;
 	    int j;   
-	    for(i=esq+1;i<=dir;i++){        
-	        j = i;                      
-	        if(vet.get(j).getDegree() < vet.get(pivo).getDegree()){     
-	            ch = vet.get(j);               
+	    for(i=esq+1;i<=dir;i++){   
+	        j = i;
+	        if(vet.get(j).getOrder() < vet.get(pivo).getOrder()){     
+	            ch = new CliqueMask (vet.get(j));
 	            while(j > pivo){           
-	                vet.get(j).setDegree(vet.get( j-1).getDegree());    
-	                vet.get(j).setNode(vet.get( j-1).getNode()); 
+	                vet.get(j).setOrder(vet.get( j-1).getOrder());    
+	                vet.get(j).setNodes(vet.get( j-1).getNodes()); 
 	                j--;                    
 	            }
-	            vet.get(j).setDegree(ch.getDegree());    
-                vet.get(j).setNode(ch.getNode()); 
+	            vet.get(j).setOrder(ch.getOrder());    
+                vet.get(j).setNodes(ch.getNodes()); 
 	            pivo++;                    
 	        }
 	    }
@@ -266,7 +287,8 @@ public class CliqueIdentifier {
 			if(!maximal.isEmpty() && maximal.size() >= minQtnNodes ) filterMax.add(maximal);
 		}
 		maximalsClique.clear();
-		maximalsClique.addAll(filterMax);		
+		maximalsClique.addAll(filterMax);	
+		maximalsClique = sortNodes(maximalsClique);
 	}
 	public ArrayList<Integer> getcurrentClique() {
 		return currentClique;
@@ -276,7 +298,7 @@ public class CliqueIdentifier {
 	public ArrayList<Integer> getMaximumClique() {
 		return maximumClique;
 	}
-	public Set<ArrayList<Integer>> getMaximalsClique(){
+	public ArrayList<ArrayList<Integer>> getMaximalsClique(){
 		return maximalsClique;
 	}
 	
@@ -302,23 +324,26 @@ public class CliqueIdentifier {
 		this.maxQtnCliques = maxQtnCliques;
 	}
 }
-class NodeMask {
-	private int node = 0;
-	private int degree = 0;
-	public int degree() {
-		return node;
+class CliqueMask {
+	private ArrayList<Integer> nodes = new ArrayList <Integer>();
+	private int order = 0;
+	public CliqueMask() {}
+	public CliqueMask(CliqueMask nm) 
+	{
+		this.nodes = nm.getNodes();
+		this.order = nm.getOrder();
 	}
-	public int getNode() {
-		return node;
+	public ArrayList<Integer> getNodes() {
+		return nodes;
 	}
-	public void setNode(int node) {
-		this.node = node;
+	public void setNodes(ArrayList<Integer> nodes) {
+		this.nodes = nodes;
 	}
-	public int getDegree() {
-		return degree;
+	public int getOrder() {
+		return order;
 	}
-	public void setDegree(int degree) {
-		this.degree = degree;
+	public void setOrder(int degree) {
+		this.order = degree;
 	}
 	
 
