@@ -176,29 +176,6 @@ public class CliqueIdentifier {
 		}
 		return sortedList;
 	}
-	/*
-	public Set<Integer> sortNodes(Set<Integer> current)
-	{
-		
-		ArrayList<NodeMask> sortedList = new ArrayList<NodeMask> ();
-		Set<Integer> adjac = new HashSet<Integer>();
-		for(Integer node: current)
-		{
-			adjac = getAdjacents(node);
-			adjac.retainAll(current);
-			NodeMask nodeMask = new NodeMask();
-			nodeMask.setNode(node);
-			nodeMask.setDegree(adjac.size());
-			sortedList.add(nodeMask);
-			
-			
-		}
-
-		quickSort(sortedList,0,sortedList.size()-1);
-		
-		Set<Integer> newCurrent = new HashSet<Integer>();
-		return newCurrent;
-	} */
 	public void removeDisconnectedNodes() {
 		ArrayList<Integer> connectedNodes = new ArrayList<Integer>();
 		for(ArrayList<Integer> relation : this.universe.getEdges().keySet()) 
@@ -289,6 +266,7 @@ public class CliqueIdentifier {
 		maximalsClique.clear();
 		maximalsClique.addAll(filterMax);	
 		maximalsClique = sortNodes(maximalsClique);
+		maximalsClique.removeIf(clique ->  maximalsClique.indexOf(clique)+1 > maxQtnCliques);	
 	}
 	public ArrayList<Integer> getcurrentClique() {
 		return currentClique;
