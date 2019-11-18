@@ -13,7 +13,7 @@ public class Main {
 		//Graph graph = new Graph();
 		//graph.generateStandardGraph();
 		Graph graph = FileReaderController.readFile("assets/p_hat300_1.txt");
-		CliqueIdentifier controller = new CliqueIdentifier(graph,3,1,3);
+		CliqueIdentifier controller = new CliqueIdentifier(graph,20,1,8);
 		System.out.println("MaxQtnCliques: "+controller.getMaxQtnCliques() +" MinWeight: " +controller.getMinWeight()+" MinQtnNodes: " +controller.getMinQtnNodes());
 		System.out.println(controller.getUniverse().getEdges());
 		HashMap<Integer,ArrayList<Integer>> colorSet = controller.coloringGraph(controller.getUniverse().getNodes().keySet());

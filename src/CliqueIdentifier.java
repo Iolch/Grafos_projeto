@@ -97,7 +97,10 @@ public class CliqueIdentifier {
 				
 				ArrayList<Integer> maximumClass = colorClass;
 				maximumClass.retainAll(currentUniverse);
-				if(maximumClass.isEmpty()) {System.out.println("level "+ level + " - Não tem mais cores! break");break;}
+				if(maximumClass.isEmpty()) {
+					//System.out.println("level "+ level + " - Não tem mais cores! break");
+					break;
+				}
 				
 				int maximumColor = (int) colorClass.get(colorClass.size()-1);
 				int choosenNode  = maximumClass.get(maximumClass.size()-1);
