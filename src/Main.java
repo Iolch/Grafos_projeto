@@ -10,8 +10,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		/*
-		Graph graph = new Graph();
+		//Graph graph = new Graph();
+		//graph.generateStandardGraph();
+		Graph graph = FileReaderController.readFile("assets/p_hat300_1.txt");
 		CliqueIdentifier controller = new CliqueIdentifier(graph,3,1,3);
 		System.out.println("MaxQtnCliques: "+controller.getMaxQtnCliques() +" MinWeight: " +controller.getMinWeight()+" MinQtnNodes: " +controller.getMinQtnNodes());
 		System.out.println(controller.getUniverse().getEdges());
@@ -19,14 +20,7 @@ public class Main {
 		controller.maximalsIdentifier(controller.getUniverse().getNodes().keySet(),colorSet,1);
         controller.filterMaximals();
 		System.out.println("MaximalsClique Final: "+controller.getMaximalsClique());
-        System.out.println("MaximumClique Final: "+controller.getMaximumClique());
-        */
-		Graph graph = FileReaderController.readFile("assets/p_hat300_1.txt");
-        
-        
-      
-        
-        
+        System.out.println("MaximumClique Final: "+controller.getMaximumClique());    
 	}
 	
 

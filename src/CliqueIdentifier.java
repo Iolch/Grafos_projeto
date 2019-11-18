@@ -78,10 +78,10 @@ public class CliqueIdentifier {
 	}
 	
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
-		System.out.println("------------ level "+level+" -----------");
-		System.out.println("currentClique inicio da exeucução: "+currentClique);
-		System.out.println("currentUniverse inicio da execução: "+currentUniverse);
-		System.out.println("colorSet inicio da  execução"+ colorSet);
+		//System.out.println("------------ level "+level+" -----------");
+		//System.out.println("currentClique inicio da exeucução: "+currentClique);
+		//System.out.println("currentUniverse inicio da execução: "+currentUniverse);
+		//System.out.println("colorSet inicio da  execução"+ colorSet);
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
 		
@@ -92,7 +92,7 @@ public class CliqueIdentifier {
 			ArrayList<Integer> colorClass = colorSet.get(i);
 			while(!currentUniverse.isEmpty())
 			{			
-				System.out.println("colorClass "+colorSet.size()+": "+colorClass);
+				//System.out.println("colorClass "+colorSet.size()+": "+colorClass);
 				
 				
 				ArrayList<Integer> maximumClass = colorClass;
@@ -109,9 +109,11 @@ public class CliqueIdentifier {
 					Set<Integer> nodeAdjac = getAdjacents(choosenNode);
 					Set<Integer> intersection = new HashSet<Integer>(currentUniverse);
 					intersection.retainAll(nodeAdjac);
-					System.out.println("choosen node: "+choosenNode+" choosen node adjacents "+nodeAdjac);
-					System.out.println();
-					System.out.println("intersection: "+intersection);
+					//System.out.println("choosen node: "+choosenNode+" choosen node adjacents "+nodeAdjac);
+					//System.out.println();
+					//System.out.println("intersection: "+intersection);
+					
+					if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
 					
 					if(!intersection.isEmpty()) {
 						if(this.s.get(level)/this.allSteps < this.Tlimit)
@@ -120,8 +122,8 @@ public class CliqueIdentifier {
 						}
 						HashMap<Integer,ArrayList<Integer>> colorSubSet = coloringGraph(intersection);
 						this.s.put(level,this.s.get(level)+1);
-						if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
-						System.out.println("chama recursiva... colorSubSet: "+colorSubSet);
+						//System.out.println("chama recursiva... colorSubSet: "+colorSubSet);
+						//if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
 						maximalsIdentifier(intersection,colorSubSet,level+1);
 	
 					}
@@ -129,19 +131,19 @@ public class CliqueIdentifier {
 					{	
 						maximumClique.clear();
 						maximumClique.addAll(currentClique);
-						if(!maximumClique.isEmpty() && maximumClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(maximumClique));
+						//if(!maximumClique.isEmpty() && maximumClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(maximumClique));
 					}
 					currentClique.removeIf(node -> node == choosenNode);
 				}
 				else
 				{
-					System.out.println("level "+ level + " - O tamanho do clique + cor maxima não é maior que o tamanho do maximumClique! break");
+					//System.out.println("level "+ level + " - O tamanho do clique + cor maxima não é maior que o tamanho do maximumClique! break");
 					break;
 				}
-				System.out.println("currentUniverse fim da execução: "+currentUniverse);
-				System.out.println("currentClique fim da execução: "+currentClique);
+				//System.out.println("currentUniverse fim da execução: "+currentUniverse);
+				//System.out.println("currentClique fim da execução: "+currentClique);
 		   }
-			System.out.println("level "+ level + " - O current Universe está vazio! break");
+			//System.out.println("level "+ level + " - O current Universe está vazio! break");
 		}
 		
 	}
@@ -213,8 +215,10 @@ public class CliqueIdentifier {
 	    int j;   
 	    for(i=esq+1;i<=dir;i++){   
 	        j = i;
-	        if(vet.get(j).getOrder() < vet.get(pivo).getOrder()){     
+	        if(vet.get(j).getOrder() < vet.get(pivo).getOrder()){
 	            ch = new CliqueMask (vet.get(j));
+
+	        	System.out.println("subs" + vet.get( j-1).getNodes() + "por" + ch.getNodes());
 	            while(j > pivo){           
 	                vet.get(j).setOrder(vet.get( j-1).getOrder());    
 	                vet.get(j).setNodes(vet.get( j-1).getNodes()); 
@@ -235,6 +239,7 @@ public class CliqueIdentifier {
 	
 	public void filterMaximals()
 	{
+		
 		System.out.println("Filtrar os maximals: "+ maximalsClique);
 		for(ArrayList<Integer> maximal: maximalsClique)
 		{
@@ -264,9 +269,9 @@ public class CliqueIdentifier {
 			if(!maximal.isEmpty() && maximal.size() >= minQtnNodes ) filterMax.add(maximal);
 		}
 		maximalsClique.clear();
-		maximalsClique.addAll(filterMax);	
-		maximalsClique = sortNodes(maximalsClique);
-		maximalsClique.removeIf(clique ->  maximalsClique.indexOf(clique)+1 > maxQtnCliques);	
+		maximalsClique.addAll(filterMax);
+		//maximalsClique = sortNodes(maximalsClique);
+		//maximalsClique.removeIf(clique ->  maximalsClique.indexOf(clique)+1 > maxQtnCliques);	
 	}
 	public ArrayList<Integer> getcurrentClique() {
 		return currentClique;
