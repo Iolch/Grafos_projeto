@@ -4,6 +4,10 @@ public class Graph{
 	HashMap <Integer, Integer> nodes = new HashMap <Integer, Integer>();
 	HashMap <ArrayList<Integer>, Integer> edges = new HashMap <ArrayList<Integer>, Integer>();
 	
+	public Graph(Graph graph) {
+		this.nodes = new HashMap <Integer, Integer>(graph.getNodes());
+		this.edges = new HashMap <ArrayList<Integer>, Integer>(graph.getEdges());
+	}
 	public Graph(HashMap <Integer, Integer> N, HashMap <ArrayList<Integer>, Integer> E) {
 		this.nodes = N;
 		this.edges = E;

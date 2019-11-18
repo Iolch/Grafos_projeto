@@ -7,23 +7,21 @@ public class Tester {
 	private Graph universe;
 	private ArrayList<Integer> currentClique = new ArrayList<Integer>();
 	private ArrayList<Integer> maximumClique = new ArrayList<Integer>();
-	private ArrayList<ArrayList<Integer>> maximalsClique = new ArrayList<ArrayList<Integer>>();
+	//private ArrayList<ArrayList<Integer>> maximalsClique = new ArrayList<ArrayList<Integer>>();
+	private ArrayList<ArrayList<Integer>> koncJanezicMaximalsClique = new ArrayList<ArrayList<Integer>>();
 	private HashMap<Integer,Integer> s = new HashMap<Integer,Integer>();
 	private HashMap<Integer,Integer> sOld = new HashMap<Integer,Integer>();
-	public Tester(Graph u,ArrayList<ArrayList<Integer>> mc)
+	public Tester(Graph u)
 	{
 		this.universe = u;
-		this.maximalsClique = mc;
+		//this.maximalsClique = mc;
 		this.s.put(0,0);
 		this.s.put(1,0);
 		this.sOld.put(0,0);
 		this.sOld.put(1,0);
-        HashMap<Integer,ArrayList<Integer>> colorSet1 = ColorSort.coloringGraph(this.universe.getNodes().keySet(),this.maximumClique,this.currentClique,this.universe.getEdges());
-        System.out.println(colorSet1);
-		konkjenezic(this.universe.getNodes().keySet(),colorSet1,1);
-		System.out.println("konkkong"+this.maximumClique);
 	}
-
+	public ArrayList<Integer> getCurrentClique() {return this.currentClique;}
+	public ArrayList<Integer> getMaximumClique() {return this.maximumClique;}
 	public void konkjenezic(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level){
 		
 		if(!this.s.containsKey(level))	this.s.put(level, 0);
