@@ -34,7 +34,6 @@ public class CliqueIdentifier {
 		// VAMOS RETIRAR TODAS AS ARESTAS COM PESO MENOR QUE minWeight E RETIRAR OS V�RTICES DESCONEXOS
 		removeBottomEdges();
 		removeDisconnectedNodes();
-		System.out.println("Remove BottomEdges e DisconnectedNodes: "+ universe.getNodes());
 		this.s.put(0,0);
 		this.s.put(1,0);
 		this.sOld.put(0,0);
@@ -123,6 +122,7 @@ public class CliqueIdentifier {
 		
 	}
 	public void maximalsIdentifier(Set <Integer> currentUniverse,HashMap<Integer,ArrayList<Integer>> colorSet, int level ) {
+
 		//System.out.println("------------ level "+level+" -----------");
 		//System.out.println("currentClique inicio da exeucução: "+currentClique);
 		//System.out.println("currentUniverse inicio da execução: "+currentUniverse);
@@ -311,13 +311,11 @@ public class CliqueIdentifier {
 				
 			}
 		}
-		System.out.println("primeiro for acabou");
 		Set<ArrayList<Integer>> filterMax = new HashSet<ArrayList<Integer>>();
 		for(ArrayList<Integer> maximal: maximalsClique)
 		{
 			if(!maximal.isEmpty() && maximal.size() >= minQtnNodes ) filterMax.add(maximal);
 		}
-		System.out.println("segundo for acabou");
 		maximalsClique.clear();
 		maximalsClique.addAll(filterMax);
 		maximalsClique = sortNodes(maximalsClique);
