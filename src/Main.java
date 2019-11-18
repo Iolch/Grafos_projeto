@@ -17,13 +17,11 @@ public class Main {
 		Graph graphTester = new Graph(graph);
 		int qntCLiques = 5;
 		int minWeight = 1;
-		int minQntNodes = 8;
+		int minQntNodes = 3;
 		CliqueIdentifier controller = new CliqueIdentifier(graph,qntCLiques,minWeight,minQntNodes);
 		
 		System.out.println("Início Execução " + System.currentTimeMillis());
 		System.out.println("Parâmetros Inciais - Quantidade Máxima Cliques = "+qntCLiques+ " - Peso Mínimo = "+ minWeight + " - Quantidade Mínima Nodes = "+ minQntNodes);
-		//System.out.println("MaxQtnCliques: "+controller.getMaxQtnCliques() +" MinWeight: " +controller.getMinWeight()+" MinQtnNodes: " +controller.getMinQtnNodes());
-		//System.out.println(controller.getUniverse().getEdges());
 		HashMap<Integer,ArrayList<Integer>> colorSet = ColorSort.coloringGraph(controller.getUniverse().getNodes().keySet(),controller.getMaximumClique(),controller.getcurrentClique(),controller.getUniverse().getEdges());
 
 		System.out.println("Início Execução Maximais " + System.currentTimeMillis());
@@ -45,19 +43,30 @@ public class Main {
 	 public static void tester(Graph currentUniverse, ArrayList<ArrayList<Integer>> maximalsClique) {
 		ArrayList<ArrayList<Integer>> koncJanezicMaximals = new ArrayList<ArrayList<Integer>>();
  		while(!currentUniverse.getNodes().keySet().isEmpty()) {
+ 			//System.out.println("kj"+ currentUniverse.getNodes().keySet());
  			Tester tester = new Tester(currentUniverse);
  			HashMap<Integer,ArrayList<Integer>> colorSet = ColorSort.coloringGraph(currentUniverse.getNodes().keySet(),tester.getMaximumClique(), tester.getCurrentClique(), currentUniverse.getEdges());
- 			tester.konkjenezic(currentUniverse.getNodes().keySet(),colorSet,1);
+ 			tester.konkjenezic(new HashSet<Integer>(currentUniverse.getNodes().keySet()),colorSet,1);
  			koncJanezicMaximals.add(new ArrayList<Integer>(tester.getMaximumClique()));
  			for(int node : tester.getMaximumClique()) {
  				currentUniverse.getNodes().remove(node);
  			}
+ 			//System.out.println("pode ter removido" + currentUniverse.getNodes().keySet());
  		}
  		Boolean testSuccess = true;
  		System.out.println("Konc e Janezic Maximals" + koncJanezicMaximals);
  		for(ArrayList<Integer> maximal : maximalsClique) {
- 			testSuccess = koncJanezicMaximals.contains(maximal);
- 			if(!testSuccess) {break;}
+ 			Boolean innerTest = false;
+ 			for(ArrayList<Integer> kjmaximal : koncJanezicMaximals) {
+ 				ArrayList<Integer> aux = new ArrayList<Integer>(maximal);
+ 				aux.retainAll(kjmaximal);
+ 				if(aux.equals(maximal)) {
+ 					innerTest = true;
+ 					break;
+ 				}
+ 			}
+ 			testSuccess = innerTest;
+ 			if(!testSuccess) break;
  		}
  		System.out.println("Resultado: " + testSuccess);
  	}
