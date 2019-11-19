@@ -11,13 +11,13 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		//Graph graph = new Graph();
-		//graph.generateStandardGraph();
+		//graph.generateStandardGraph();	
 		Graph graph = FileReaderController.readFile("assets/c-fat200-1.txt");
 		
 		Graph graphTester = new Graph(graph);
 		int qntCLiques = 5;
 		int minWeight = 1;
-		int minQntNodes = 12;
+		int minQntNodes = 11;
 		CliqueIdentifier controller = new CliqueIdentifier(graph,qntCLiques,minWeight,minQntNodes);
 		
 		System.out.println("Início Execução " + System.currentTimeMillis());
@@ -40,6 +40,13 @@ public class Main {
        System.out.println("Finaliza Execução " + System.currentTimeMillis());
        
 	}
+	public static boolean filterCLiquesAdjac(ArrayList<Integer> edge, Graph currentUniverse, ArrayList<Integer> maximumClique) {
+		Set<Integer> edge0 = ColorSort.getAdjacents(edge.get(0), currentUniverse.getEdges());
+		Set<Integer> edge1 = ColorSort.getAdjacents(edge.get(1), currentUniverse.getEdges());
+		edge0.removeIf(node -> !edge1.contains(node));
+		edge0.removeIf(node -> maximumClique.contains(node));
+		return edge0.isEmpty();
+	}
 	public static ArrayList<Integer> getNodesWithAdjacents(Graph currentUniverse){
 		ArrayList<Integer> nodes = new ArrayList<Integer>();
 		for(int node : currentUniverse.getNodes().keySet()) {
@@ -61,25 +68,26 @@ public class Main {
  			koncJanezicMaximals.add(new ArrayList<Integer>(tester.getMaximumClique()));
  			
  			for(int node : tester.getMaximumClique()) {
- 				currentUniverse.getEdges().entrySet().removeIf(edge -> tester.getMaximumClique().contains(edge.getKey().get(0)) || tester.getMaximumClique().contains(edge.getKey().get(1)));
+ 				
+ 				currentUniverse.getEdges().entrySet().removeIf(
+ 						edge -> filterCLiquesAdjac(edge.getKey(), new Graph(currentUniverse), tester.getMaximumClique())
+ 				);
+ 				//currentUniverse.getEdges().entrySet().removeIf(edge -> tester.getMaximumClique().contains(edge.getKey().get(0)) || tester.getMaximumClique().contains(edge.getKey().get(1)));
  			}
  		}
- 		Boolean testSuccess = true;
+ 		int cont = 0;
  		System.out.println("Konc e Janezic Maximals" + koncJanezicMaximals);
  		for(ArrayList<Integer> maximal : maximalsClique) {
- 			Boolean innerTest = false;
  			for(ArrayList<Integer> kjmaximal : koncJanezicMaximals) {
  				ArrayList<Integer> aux = new ArrayList<Integer>(maximal);
  				aux.retainAll(kjmaximal);
  				if(aux.equals(maximal)) {
- 					innerTest = true;
+ 					cont ++;
  					break;
  				}
  			}
- 			testSuccess = innerTest;
- 			if(!testSuccess) break;
  		}
- 		System.out.println("Resultado: " + testSuccess);
+ 		System.out.println("Encontrou: " + cont + " de " + maximalsClique.size());
  	}
 	
 
