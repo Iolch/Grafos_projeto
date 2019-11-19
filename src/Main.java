@@ -12,12 +12,12 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		//Graph graph = new Graph();
 		//graph.generateStandardGraph();
-		Graph graph = FileReaderController.readFile("assets/p_hat300_1.txt");
+		Graph graph = FileReaderController.readFile("assets/c-fat200-1.txt");
 		
 		Graph graphTester = new Graph(graph);
 		int qntCLiques = 5;
 		int minWeight = 1;
-		int minQntNodes = 3;
+		int minQntNodes = 12;
 		CliqueIdentifier controller = new CliqueIdentifier(graph,qntCLiques,minWeight,minQntNodes);
 		
 		System.out.println("Início Execução " + System.currentTimeMillis());
@@ -40,18 +40,29 @@ public class Main {
        System.out.println("Finaliza Execução " + System.currentTimeMillis());
        
 	}
+	public static ArrayList<Integer> getNodesWithAdjacents(Graph currentUniverse){
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		for(int node : currentUniverse.getNodes().keySet()) {
+			Set<Integer> aux = ColorSort.getAdjacents(node, currentUniverse.getEdges());
+			if(!aux.isEmpty()) nodes.add(node);
+		}
+		return nodes;
+	}
 	 public static void tester(Graph currentUniverse, ArrayList<ArrayList<Integer>> maximalsClique) {
 		ArrayList<ArrayList<Integer>> koncJanezicMaximals = new ArrayList<ArrayList<Integer>>();
- 		while(!currentUniverse.getNodes().keySet().isEmpty()) {
- 			//System.out.println("kj"+ currentUniverse.getNodes().keySet());
+		
+		while(!getNodesWithAdjacents(currentUniverse).isEmpty()) {
  			Tester tester = new Tester(currentUniverse);
- 			HashMap<Integer,ArrayList<Integer>> colorSet = ColorSort.coloringGraph(currentUniverse.getNodes().keySet(),tester.getMaximumClique(), tester.getCurrentClique(), currentUniverse.getEdges());
- 			tester.konkjenezic(new HashSet<Integer>(currentUniverse.getNodes().keySet()),colorSet,1);
+ 			
+ 			HashMap<Integer,ArrayList<Integer>> colorSet = ColorSort.coloringGraph(new HashSet<Integer>(getNodesWithAdjacents(currentUniverse)),tester.getMaximumClique(), tester.getCurrentClique(), currentUniverse.getEdges());
+ 			
+ 			tester.konkjenezic(new HashSet<Integer>(getNodesWithAdjacents(currentUniverse)),colorSet,1);
+ 			
  			koncJanezicMaximals.add(new ArrayList<Integer>(tester.getMaximumClique()));
+ 			
  			for(int node : tester.getMaximumClique()) {
- 				currentUniverse.getNodes().remove(node);
+ 				currentUniverse.getEdges().entrySet().removeIf(edge -> tester.getMaximumClique().contains(edge.getKey().get(0)) || tester.getMaximumClique().contains(edge.getKey().get(1)));
  			}
- 			//System.out.println("pode ter removido" + currentUniverse.getNodes().keySet());
  		}
  		Boolean testSuccess = true;
  		System.out.println("Konc e Janezic Maximals" + koncJanezicMaximals);

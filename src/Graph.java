@@ -42,7 +42,7 @@ public class Graph{
 		this.addNode(8);
 		this.addNode(9);
 		this.addNode(10);
-		
+	
 		/*this.addEdge(1, 2, 4);
 		this.addEdge(1, 3, 4);
 		this.addEdge(1, 4, 4);

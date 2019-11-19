@@ -44,7 +44,7 @@ public class Tester {
 				int choosenNode  = maximumClass.get(maximumClass.size()-1);
 				colorSet.remove(maximumClass);
 				currentUniverse.remove(choosenNode);
-				if(currentClique.size()+ maximumColor > maximumClique.size() )
+				if(currentClique.size()+ maximumColor >= maximumClique.size() )
 				{
 					currentClique.add(choosenNode);
 					Set<Integer> nodeAdjac = ColorSort.getAdjacents(choosenNode,this.universe.getEdges());
@@ -55,15 +55,12 @@ public class Tester {
 					
 						HashMap<Integer,ArrayList<Integer>> colorSubSet = ColorSort.coloringGraph(intersection,this.maximumClique,this.currentClique,this.universe.getEdges());
 						this.s.put(level,this.s.get(level)+1);
-						//System.out.println("chama recursiva... colorSubSet: "+colorSubSet);
-						//if(!currentClique.isEmpty() && currentClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(currentClique));
 						konkjenezic(intersection,colorSubSet,level+1);
 					}
 					else if(currentClique.size()> maximumClique.size())
 					{	
 						maximumClique.clear();
 						maximumClique.addAll(currentClique);
-						//if(!maximumClique.isEmpty() && maximumClique.size() >= minQtnNodes) maximalsClique.add(new ArrayList<Integer>(maximumClique));
 					}
 					currentClique.removeIf(node -> node == choosenNode);
 				}

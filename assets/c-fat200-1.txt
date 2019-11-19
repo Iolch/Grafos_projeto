@@ -1,5 +1,5 @@
 %%MatrixMarket matrix coordinate pattern symmetric
-p edge	200 200 1534
+p edge	200	1534
 e 2 1
 e 3 2
 e 4 3
