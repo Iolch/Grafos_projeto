@@ -12,12 +12,12 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		//Graph graph = new Graph();
 		//graph.generateStandardGraph();	
-		Graph graph = FileReaderController.readFile("assets/c-fat200-1.txt");
+		Graph graph = FileReaderController.readFile("assets/hamming6_4.txt");
 		
 		Graph graphTester = new Graph(graph);
-		int qntCLiques = 5;
+		int qntCLiques = 10;
 		int minWeight = 1;
-		int minQntNodes = 11;
+		int minQntNodes = 3;
 		CliqueIdentifier controller = new CliqueIdentifier(graph,qntCLiques,minWeight,minQntNodes);
 		
 		System.out.println("Início Execução " + System.currentTimeMillis());
@@ -26,16 +26,16 @@ public class Main {
 
 		System.out.println("Início Execução Maximais " + System.currentTimeMillis());
 		controller.maximalsIdentifier(controller.getUniverse().getNodes().keySet(),colorSet,1);
-
+		
 		System.out.println("Início Execução Filtro " + System.currentTimeMillis());
         controller.filterMaximals();
         
-		System.out.println("MaximalsClique Final: "+controller.getMaximalsClique());
+		System.out.println("MaximalsClique Final: "+controller.getMaximalsClique().size() +" - " +controller.getMaximalsClique());
         System.out.println("MaximumClique Final: "+controller.getMaximumClique());    
      
         // Inicia testes
-       System.out.println("Início Execução Testes " + System.currentTimeMillis());
-       tester(graphTester, controller.getMaximalsClique());
+        //System.out.println("Início Execução Testes " + System.currentTimeMillis());
+       //tester(graphTester, controller.getMaximalsClique());
        
        System.out.println("Finaliza Execução " + System.currentTimeMillis());
        
@@ -76,7 +76,7 @@ public class Main {
  			}
  		}
  		int cont = 0;
- 		System.out.println("Konc e Janezic Maximals" + koncJanezicMaximals);
+ 		System.out.println("Konc e Janezic Maximals " +koncJanezicMaximals.size()+" - "+koncJanezicMaximals);
  		for(ArrayList<Integer> maximal : maximalsClique) {
  			for(ArrayList<Integer> kjmaximal : koncJanezicMaximals) {
  				ArrayList<Integer> aux = new ArrayList<Integer>(maximal);

@@ -43,7 +43,7 @@ public class Graph{
 		this.addNode(9);
 		this.addNode(10);
 	
-		this.addEdge(1, 2, 4);
+		/*this.addEdge(1, 2, 4);
 		this.addEdge(1, 3, 4);
 		this.addEdge(1, 4, 4);
 		this.addEdge(1, 5, 4);
@@ -63,7 +63,7 @@ public class Graph{
 		this.addEdge(7, 10, 4);
 		this.addEdge(8, 9, 4);
 		this.addEdge(8, 10, 4);
-		this.addEdge(9, 10, 4);
+		this.addEdge(9, 10, 4);*/
 		
 		/*this.addEdge(1, 3, 4);
 		this.addEdge(2, 4, 24);

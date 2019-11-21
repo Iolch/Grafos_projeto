@@ -131,9 +131,9 @@ public class CliqueIdentifier {
 		if(!this.sOld.containsKey(level))this.sOld.put(level, 0);
 		
 		this.s.put(level,this.s.get(level)+this.s.get(level-1) - this.sOld.get(level));
-	
 		for(int i = colorSet.size(); i >= 1 ; i--)
-		{			
+		{		
+			
 			ArrayList<Integer> colorClass = colorSet.get(i);
 			while(!currentUniverse.isEmpty())
 			{			
@@ -189,7 +189,7 @@ public class CliqueIdentifier {
 					break;
 				}
 				//System.out.println("currentUniverse fim da execução: "+currentUniverse);
-				//System.out.println("currentClique fim da execução: "+currentClique);
+				//System.out.println("maximumClique fim da execução: "+maximumClique);
 		   }
 			//System.out.println("level "+ level + " - O current Universe está vazio! break");
 		}
@@ -266,8 +266,7 @@ public class CliqueIdentifier {
 	        if(vet.get(j).getOrder() < vet.get(pivo).getOrder()){
 	            ch = new CliqueMask (vet.get(j));
 
-	        	System.out.println("subs" + vet.get( j-1).getNodes() + "por" + ch.getNodes());
-	            while(j > pivo){           
+	        	while(j > pivo){           
 	                vet.get(j).setOrder(vet.get( j-1).getOrder());    
 	                vet.get(j).setNodes(vet.get( j-1).getNodes()); 
 	                j--;                    
@@ -288,7 +287,7 @@ public class CliqueIdentifier {
 	public void filterMaximals()
 	{
 		
-		System.out.println("Filtrar os maximals: "+ maximalsClique);
+		System.out.println("Filtrar os maximals: " +maximalsClique.size()+ " - "+ maximalsClique);
 		for(ArrayList<Integer> maximal: maximalsClique)
 		{
 			//System.out.println("maximal"+maximal);
