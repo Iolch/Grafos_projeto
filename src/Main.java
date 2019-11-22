@@ -12,12 +12,12 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		//Graph graph = new Graph();
 		//graph.generateStandardGraph();	
-		Graph graph = FileReaderController.readFile("assets/hamming6_4.txt");
+		Graph graph = FileReaderController.readFile("assets/johnson8-4-4.txt");
 		
 		Graph graphTester = new Graph(graph);
 		int qntCLiques = 10;
 		int minWeight = 1;
-		int minQntNodes = 3;
+		int minQntNodes = 10;
 		CliqueIdentifier controller = new CliqueIdentifier(graph,qntCLiques,minWeight,minQntNodes);
 		
 		System.out.println("Início Execução " + System.currentTimeMillis());
